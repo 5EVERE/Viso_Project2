@@ -1,8 +1,10 @@
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../hooks/use-auth";
 import "./Header.css";
 
 const Header = function () {
+  const { isAuth, email } = useAuth();
   return (
     <header>
       <Navbar bg="light" expand="lg" variant="light" className="shadow-sm">
@@ -26,9 +28,11 @@ const Header = function () {
                     </NavLink>
                   </Nav.Link>
                   <Nav.Link as="span">
-                    <NavLink to="/items-list" activeClassName="active">
-                      Items
-                    </NavLink>
+                    {isAuth && (
+                      <NavLink to="/items-list" activeClassName="active">
+                        Items
+                      </NavLink>
+                    )}
                   </Nav.Link>
                 </Nav>
               </Navbar.Collapse>

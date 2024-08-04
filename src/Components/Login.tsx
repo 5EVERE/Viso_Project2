@@ -22,19 +22,6 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
-
-    // .then(({ user }) => {
-    //   console.log(user);
-    //   dispatch(
-    //     setUser({
-    //       email: user.email,
-    //       id: user.uid,
-    //       token: user.refreshToken,
-    //     })
-    //   );
-    //   history.push("/profile");
-    // })
-    // .catch(() => alert("Invalid user!"));
   };
 
   useEffect(() => {
