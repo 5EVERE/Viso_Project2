@@ -9,11 +9,11 @@ import { useHistory } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const dispatch = useAppDispatch();
-  const {push} = useHistory();
+  const { push } = useHistory();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();

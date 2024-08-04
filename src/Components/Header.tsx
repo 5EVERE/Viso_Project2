@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/use-auth";
 import "./Header.css";
 
 const Header = function () {
-  const { isAuth, email } = useAuth();
+  const { isAuth } = useAuth();
   return (
     <header>
       <Navbar bg="light" expand="lg" variant="light" className="shadow-sm">
