@@ -1,10 +1,11 @@
 // src/components/Register.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { setUser } from "../store/userSlice";
 import { useAppDispatch } from "../store/redux-hooks";
 import { useHistory } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -13,11 +14,18 @@ const Register: React.FC = () => {
   const dispatch = useAppDispatch();
   const { push } = useHistory();
 
-  const handleRegister = (email: string, password: string) => {
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        console.log(user);
+  const handleRegister = async (e: any) => {
+    e.preventDefault();
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
         dispatch(
           setUser({
             email: user.email,
@@ -26,14 +34,17 @@ const Register: React.FC = () => {
           })
         );
         push("/profile");
-      })
-      .catch(console.error);
-  };
+      } else {
+        console.log("No user logged in");
+      }
+    });
+  }, [auth]);
+
 
   return (
     <Container>
       <h2 className="my-4">Register</h2>
-      <Form onSubmit={() => handleRegister(email, password)}>
+      <Form onSubmit={handleRegister}>
         <Form.Group controlId="formEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
